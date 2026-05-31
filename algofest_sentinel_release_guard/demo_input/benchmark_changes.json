@@ -1,0 +1,48 @@
+[
+  {
+    "id": "B-001",
+    "expected_decision": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW",
+    "change": {
+      "title": "AI-assisted invoice approval and refund workflow",
+      "summary": "A new AI agent reviews invoices, recommends refund approvals, and syncs payment state to the ERP. The release touches authentication, billing, webhook sync, and dashboard review screens.",
+      "business_context": "Finance wants to reduce manual refund review time without losing release control. The risky part is that an AI agent can recommend refunds and downstream systems update automatically unless a human approval gate catches high-risk cases.",
+      "owner": "Finance release owner",
+      "changed_files": [
+        "app/auth/roles.py",
+        "app/billing/refunds.py",
+        "app/integrations/erp_webhook.py",
+        "app/agents/invoice_refund_agent.py"
+      ],
+      "diff_excerpt": "Adds ai_agent_recommend_refund(), updates admin role checks, sends refund webhook events to ERP, and changes dashboard state from pending_review to auto_recommended."
+    }
+  },
+  {
+    "id": "B-002",
+    "expected_decision": "CONDITIONAL_RELEASE_AFTER_APPROVAL",
+    "change": {
+      "title": "Authentication warning copy update",
+      "summary": "Updates authentication warning copy shown before protected actions.",
+      "business_context": "The change is small, but it still touches a protected access message and should receive focused review.",
+      "owner": "Identity release owner",
+      "changed_files": [
+        "app/ui/access_notice.tsx"
+      ],
+      "diff_excerpt": "Adjust warning text before a protected action. Verify the message does not weaken user review."
+    }
+  },
+  {
+    "id": "B-003",
+    "expected_decision": "APPROVE_LOW_RISK_RELEASE",
+    "change": {
+      "title": "Help-center wording update",
+      "summary": "Updates help-center wording only. No protected feature or backend behavior changes.",
+      "business_context": "Low-risk content release.",
+      "owner": "Docs owner",
+      "changed_files": [
+        "docs/help_center.md",
+        "app/content/help_text.ts"
+      ],
+      "diff_excerpt": "Text-only change for help-center article wording."
+    }
+  }
+]

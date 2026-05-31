@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-05-31T10:26:28Z",
+  "cases": 3,
+  "matched_expected_decisions": 3,
+  "decision_match_rate": 1.0,
+  "rows": [
+    {
+      "id": "B-001",
+      "title": "AI-assisted invoice approval and refund workflow",
+      "expected_decision": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW",
+      "actual_decision": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW",
+      "risk_score": 87,
+      "passed": true,
+      "top_risks": [
+        "payment",
+        "authentication",
+        "ai_agent"
+      ]
+    },
+    {
+      "id": "B-002",
+      "title": "Authentication warning copy update",
+      "expected_decision": "CONDITIONAL_RELEASE_AFTER_APPROVAL",
+      "actual_decision": "CONDITIONAL_RELEASE_AFTER_APPROVAL",
+      "risk_score": 62,
+      "passed": true,
+      "top_risks": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "B-003",
+      "title": "Help-center wording update",
+      "expected_decision": "APPROVE_LOW_RISK_RELEASE",
+      "actual_decision": "APPROVE_LOW_RISK_RELEASE",
+      "risk_score": 18,
+      "passed": true,
+      "top_risks": []
+    }
+  ]
+}

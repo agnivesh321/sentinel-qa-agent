@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Sentinel QA Agent
+Sentinel Release Guard
 
-UiPath AgentHack Track 3 submission core.
+AlgoFest 2026 AI/ML + Open Innovation submission core.
 
-The agent converts product changes into a security-aware regression test plan,
-simulates the UiPath Test Cloud orchestration loop for local demos, and exports
-artifacts that can be connected to UiPath Automation Cloud once credentials are
-available.
+The agent converts product changes into a security-aware release plan, ranks
+regression risk, simulates CI gate execution for local demos, and exports the
+evidence judges need to understand why a release is blocked or approved.
 """
 from __future__ import annotations
 
@@ -28,6 +27,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = ROOT / "demo_input" / "sample_change.json"
+DEFAULT_BENCHMARK = ROOT / "demo_input" / "benchmark_changes.json"
 DEFAULT_OUTPUT = ROOT / "demo_output"
 
 SECURITY_PATTERNS = {
@@ -134,7 +134,7 @@ class TestCase:
     preconditions: List[str]
     steps: List[str]
     expected_result: str
-    ui_path_asset: str
+    control_asset: str
     human_gate: bool = False
 
 
@@ -164,8 +164,7 @@ def now_utc() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def read_change(path: Path) -> ChangeInput:
-    raw = json.loads(path.read_text(encoding="utf-8"))
+def change_from_payload(raw: Dict[str, Any]) -> ChangeInput:
     return ChangeInput(
         title=str(raw.get("title", "")).strip() or "Untitled change",
         summary=str(raw.get("summary", "")).strip(),
@@ -175,6 +174,11 @@ def read_change(path: Path) -> ChangeInput:
         release_deadline=str(raw.get("release_deadline", "")).strip(),
         owner=str(raw.get("owner", "Release owner")).strip() or "Release owner",
     )
+
+
+def read_change(path: Path) -> ChangeInput:
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    return change_from_payload(raw)
 
 
 def haystack(change: ChangeInput) -> str:
@@ -296,14 +300,14 @@ def generate_tests(change: ChangeInput, risks: List[RiskSignal]) -> List[TestCas
                 title=f"{risk.category.replace('_', ' ').title()} guardrail validation",
                 category=risk.category,
                 priority="P0" if risk.score >= 80 else "P1" if risk.score >= 55 else "P2",
-                automation_target="UiPath Test Cloud",
+                automation_target="Sentinel CI release gate",
                 preconditions=[
                     "Test environment seeded with admin, standard user, and read-only user.",
                     "Release candidate build is deployed to staging.",
-                    "UiPath robot has access only to test credentials and non-production data.",
+                    "The release gate has access only to test credentials and non-production data.",
                 ],
                 steps=[
-                    "Create a UiPath Test Cloud test set for this risk category.",
+                    "Create a focused automated test group for this risk category.",
                     scenarios[0],
                     scenarios[1],
                     scenarios[2],
@@ -314,7 +318,7 @@ def generate_tests(change: ChangeInput, risks: List[RiskSignal]) -> List[TestCas
                     "All controls behave as expected, no unauthorized action succeeds, "
                     "and any failure creates a human-review task before release."
                 ),
-                ui_path_asset=f"TestCloud::{risk.category}::risk-score-{risk.score}",
+                control_asset=f"ReleaseGate::{risk.category}::risk-score-{risk.score}",
                 human_gate=risk.score >= 55,
             )
         )
@@ -331,9 +335,9 @@ def simulate_test_cloud_results(tests: List[TestCase], risks: List[RiskSignal]) 
         if status == "passed":
             finding = "Validated expected control behavior in staged workflow."
         action = (
-            "Block release and create a human review task in UiPath Action Center."
+            "Block release and create a human review task for the release owner."
             if status == "failed"
-            else "Keep evidence attached to the UiPath Test Cloud run."
+            else "Keep evidence attached to the release gate run."
         )
         results.append(
             TestRunResult(
@@ -351,7 +355,7 @@ def build_trace(change: ChangeInput, risks: List[RiskSignal], tests: List[TestCa
     return [
         {
             "time": now_utc(),
-            "actor": "Sentinel QA Agent",
+            "actor": "Sentinel Release Guard",
             "step": "ingest_change",
             "detail": f"Loaded change '{change.title}' with {len(change.changed_files)} changed files.",
         },
@@ -364,13 +368,13 @@ def build_trace(change: ChangeInput, risks: List[RiskSignal], tests: List[TestCa
         {
             "time": now_utc(),
             "actor": "Test Planner",
-            "step": "generate_test_cloud_plan",
-            "detail": f"Generated {len(tests)} UiPath Test Cloud candidate cases.",
+            "step": "generate_release_gate_plan",
+            "detail": f"Generated {len(tests)} security-aware release gate cases.",
         },
         {
             "time": now_utc(),
-            "actor": "UiPath Orchestrator Adapter",
-            "step": "simulate_test_cloud_run",
+            "actor": "CI Gate Simulator",
+            "step": "simulate_release_gate_run",
             "detail": f"Produced {len(results)} test results for demo mode.",
         },
         {
@@ -435,9 +439,9 @@ def write_dashboard(path: Path, plan: AgentPlan) -> None:
             f"<td>{esc(test.id)}</td>"
             f"<td>{esc(test.title)}</td>"
             f"<td>{esc(test.priority)}</td>"
-            f"<td>{esc(test.ui_path_asset)}</td>"
+            f"<td>{esc(test.control_asset)}</td>"
             f"<td><span class='badge {status_class(status)}'>{esc(status)}</span></td>"
-            f"<td>{esc(result.finding if result else 'Queued for UiPath Test Cloud')}</td>"
+            f"<td>{esc(result.finding if result else 'Queued for release gate execution')}</td>"
             "</tr>"
         )
     trace_items = "".join(
@@ -450,7 +454,7 @@ def write_dashboard(path: Path, plan: AgentPlan) -> None:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sentinel QA Agent</title>
+  <title>Sentinel Release Guard</title>
   <style>
     :root {{
       --ink: #172026;
@@ -497,8 +501,8 @@ def write_dashboard(path: Path, plan: AgentPlan) -> None:
 </head>
 <body>
   <header>
-    <h1>Sentinel QA Agent</h1>
-    <div class="meta">UiPath AgentHack Track 3: Test Cloud. Generated {esc(plan.generated_at)}.</div>
+    <h1>Sentinel Release Guard</h1>
+    <div class="meta">AlgoFest 2026: AI/ML + Open Innovation. Generated {esc(plan.generated_at)}.</div>
   </header>
   <main>
     <p>{esc(plan.change.summary)}</p>
@@ -510,9 +514,9 @@ def write_dashboard(path: Path, plan: AgentPlan) -> None:
     </section>
     <h2>Risk Signals</h2>
     <section class="grid">{''.join(risk_cards)}</section>
-    <h2>UiPath Test Cloud Plan</h2>
+    <h2>Release Gate Test Plan</h2>
     <table>
-      <thead><tr><th>ID</th><th>Test</th><th>Priority</th><th>UiPath Asset</th><th>Status</th><th>Finding</th></tr></thead>
+      <thead><tr><th>ID</th><th>Test</th><th>Priority</th><th>Control Asset</th><th>Status</th><th>Finding</th></tr></thead>
       <tbody>{''.join(test_rows)}</tbody>
     </table>
     <h2>Orchestration Trace</h2>
@@ -527,7 +531,7 @@ def write_dashboard(path: Path, plan: AgentPlan) -> None:
 
 def write_markdown_report(path: Path, plan: AgentPlan) -> None:
     lines = [
-        "# Sentinel QA Agent Report",
+        "# Sentinel Release Guard Report",
         "",
         f"Generated: {plan.generated_at}",
         f"Change: {plan.change.title}",
@@ -549,14 +553,14 @@ def write_markdown_report(path: Path, plan: AgentPlan) -> None:
                 f"  Impact: {risk.impact}",
             ]
         )
-    lines.extend(["", "## Test Cloud Cases", ""])
+    lines.extend(["", "## Release Gate Cases", ""])
     for test in plan.test_cases:
         lines.extend(
             [
                 f"### {test.id}: {test.title}",
                 "",
                 f"- Priority: {test.priority}",
-                f"- UiPath asset: {test.ui_path_asset}",
+                f"- Control asset: {test.control_asset}",
                 f"- Human gate: {'yes' if test.human_gate else 'no'}",
                 "- Steps:",
             ]
@@ -577,17 +581,17 @@ def write_markdown_report(path: Path, plan: AgentPlan) -> None:
     path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
-def write_uipath_payloads(output_dir: Path, plan: AgentPlan) -> None:
-    test_set = {
-        "name": f"Sentinel QA - {plan.change.title}",
+def write_release_payloads(output_dir: Path, plan: AgentPlan) -> None:
+    release_gate = {
+        "name": f"Sentinel Release Guard - {plan.change.title}",
         "description": plan.change.summary,
         "releaseDecision": plan.release_decision,
         "riskScore": plan.release_risk_score,
         "testCases": [asdict(test) for test in plan.test_cases],
     }
-    action_center_tasks = []
+    human_review_tasks = []
     if plan.human_approval_required:
-        action_center_tasks.append(
+        human_review_tasks.append(
             {
                 "title": f"Approve or block release: {plan.change.title}",
                 "assignedTo": plan.change.owner,
@@ -602,7 +606,7 @@ def write_uipath_payloads(output_dir: Path, plan: AgentPlan) -> None:
     for result in plan.simulated_results:
         if result.status != "failed":
             continue
-        action_center_tasks.append(
+        human_review_tasks.append(
             {
                 "title": f"Review failed test {result.test_id}",
                 "assignedTo": plan.change.owner,
@@ -611,8 +615,76 @@ def write_uipath_payloads(output_dir: Path, plan: AgentPlan) -> None:
                 "recommendedAction": result.recommended_action,
             }
         )
-    write_json(output_dir / "uipath_test_set_payload.json", test_set)
-    write_json(output_dir / "uipath_action_center_tasks.json", action_center_tasks)
+    write_json(output_dir / "ci_release_gate.json", release_gate)
+    write_json(output_dir / "human_review_queue.json", human_review_tasks)
+
+    failed = [result for result in plan.simulated_results if result.status == "failed"]
+    comment = [
+        "## Sentinel Release Guard",
+        "",
+        f"Decision: **{plan.release_decision}**",
+        f"Risk score: **{plan.release_risk_score}/100**",
+        f"Generated tests: **{len(plan.test_cases)}**",
+        f"Failed tests: **{len(failed)}**",
+        "",
+        "### Top Risks",
+        "",
+    ]
+    for risk in plan.risk_signals[:5]:
+        comment.append(f"- {risk.category}: {risk.severity}, {risk.score}/100")
+    comment.extend(["", "### Required Action", ""])
+    comment.append(
+        "Review failed evidence before release." if plan.human_approval_required else "Release can proceed."
+    )
+    (output_dir / "github_pr_comment.md").write_text("\n".join(comment) + "\n", encoding="utf-8")
+
+
+def write_benchmark_outputs(output_dir: Path, benchmark_path: Path = DEFAULT_BENCHMARK) -> None:
+    if not benchmark_path.exists():
+        return
+    raw_items = json.loads(benchmark_path.read_text(encoding="utf-8"))
+    rows = []
+    matched = 0
+    for item in raw_items:
+        change = change_from_payload(item["change"])
+        plan = build_plan(change)
+        expected = item.get("expected_decision", "")
+        passed = plan.release_decision == expected
+        matched += 1 if passed else 0
+        rows.append(
+            {
+                "id": item.get("id", change.title),
+                "title": change.title,
+                "expected_decision": expected,
+                "actual_decision": plan.release_decision,
+                "risk_score": plan.release_risk_score,
+                "passed": passed,
+                "top_risks": [risk.category for risk in plan.risk_signals[:3]],
+            }
+        )
+    summary = {
+        "generated_at": now_utc(),
+        "cases": len(rows),
+        "matched_expected_decisions": matched,
+        "decision_match_rate": round(matched / max(1, len(rows)), 3),
+        "rows": rows,
+    }
+    write_json(output_dir / "benchmark_results.json", summary)
+    lines = [
+        "# Sentinel Release Guard Benchmark",
+        "",
+        f"Cases: {summary['cases']}",
+        f"Decision match rate: {summary['decision_match_rate'] * 100:.1f}%",
+        "",
+        "| ID | Expected | Actual | Risk | Pass |",
+        "| --- | --- | --- | ---: | --- |",
+    ]
+    for row in rows:
+        lines.append(
+            f"| {row['id']} | {row['expected_decision']} | {row['actual_decision']} | "
+            f"{row['risk_score']} | {'yes' if row['passed'] else 'no'} |"
+        )
+    (output_dir / "benchmark_summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def run_demo(input_path: Path, output_dir: Path) -> AgentPlan:
@@ -622,7 +694,8 @@ def run_demo(input_path: Path, output_dir: Path) -> AgentPlan:
     write_json(output_dir / "agent_plan.json", asdict(plan))
     write_dashboard(output_dir / "dashboard.html", plan)
     write_markdown_report(output_dir / "sentinel_report.md", plan)
-    write_uipath_payloads(output_dir, plan)
+    write_release_payloads(output_dir, plan)
+    write_benchmark_outputs(output_dir)
     return plan
 
 
@@ -668,7 +741,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Generate a UiPath Test Cloud security regression plan.",
+        description="Generate a security-aware AI release governance plan.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     sub = parser.add_subparsers(dest="command", required=True)
@@ -685,11 +758,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "serve":
         httpd = ThreadingHTTPServer((args.host, args.port), Handler)
-        print(f"Serving Sentinel QA Agent on http://{args.host}:{args.port}")
+        print(f"Serving Sentinel Release Guard on http://{args.host}:{args.port}")
         httpd.serve_forever()
         return 0
     plan = run_demo(args.input, args.output_dir)
-    print("Sentinel QA Agent demo complete.")
+    print("Sentinel Release Guard demo complete.")
     print(f"Decision: {plan.release_decision}")
     print(f"Risk score: {plan.release_risk_score}/100")
     print(f"Dashboard: {args.output_dir / 'dashboard.html'}")

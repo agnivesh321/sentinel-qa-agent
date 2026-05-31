@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sentinel QA Agent</title>
+  <title>Sentinel Release Guard</title>
   <style>
     :root {
       --ink: #172026;
@@ -50,8 +50,8 @@
 </head>
 <body>
   <header>
-    <h1>Sentinel QA Agent</h1>
-    <div class="meta">UiPath AgentHack Track 3: Test Cloud. Generated 2026-05-31T07:33:30Z.</div>
+    <h1>Sentinel Release Guard</h1>
+    <div class="meta">AlgoFest 2026: AI/ML + Open Innovation. Generated 2026-05-31T10:26:28Z.</div>
   </header>
   <main>
     <p>A new AI agent reviews invoices, recommends refund approvals, and syncs payment state to the ERP. The release touches authentication, billing, webhook sync, and dashboard review screens.</p>
@@ -99,13 +99,13 @@
               <small>keyword:dashboard, keyword:screen, file:app/ui/refund_review_dashboard.tsx</small>
             </article>
             </section>
-    <h2>UiPath Test Cloud Plan</h2>
+    <h2>Release Gate Test Plan</h2>
     <table>
-      <thead><tr><th>ID</th><th>Test</th><th>Priority</th><th>UiPath Asset</th><th>Status</th><th>Finding</th></tr></thead>
-      <tbody><tr><td>SQA-001-PAYMENT</td><td>Payment guardrail validation</td><td>P1</td><td>TestCloud::payment::risk-score-78</td><td><span class='badge fail'>failed</span></td><td>Checkout retry produced two invoice records for one approved payment.</td></tr><tr><td>SQA-002-AUTHENTICATION</td><td>Authentication guardrail validation</td><td>P1</td><td>TestCloud::authentication::risk-score-56</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-003-AI-AGENT</td><td>Ai Agent guardrail validation</td><td>P1</td><td>TestCloud::ai_agent::risk-score-56</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-004-EXTERNAL-INTEGRATION</td><td>External Integration guardrail validation</td><td>P2</td><td>TestCloud::external_integration::risk-score-52</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-005-STATE-MACHINE</td><td>State Machine guardrail validation</td><td>P2</td><td>TestCloud::state_machine::risk-score-39</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-006-USER-EXPERIENCE</td><td>User Experience guardrail validation</td><td>P2</td><td>TestCloud::user_experience::risk-score-39</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr></tbody>
+      <thead><tr><th>ID</th><th>Test</th><th>Priority</th><th>Control Asset</th><th>Status</th><th>Finding</th></tr></thead>
+      <tbody><tr><td>SQA-001-PAYMENT</td><td>Payment guardrail validation</td><td>P1</td><td>ReleaseGate::payment::risk-score-78</td><td><span class='badge fail'>failed</span></td><td>Checkout retry produced two invoice records for one approved payment.</td></tr><tr><td>SQA-002-AUTHENTICATION</td><td>Authentication guardrail validation</td><td>P1</td><td>ReleaseGate::authentication::risk-score-56</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-003-AI-AGENT</td><td>Ai Agent guardrail validation</td><td>P1</td><td>ReleaseGate::ai_agent::risk-score-56</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-004-EXTERNAL-INTEGRATION</td><td>External Integration guardrail validation</td><td>P2</td><td>ReleaseGate::external_integration::risk-score-52</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-005-STATE-MACHINE</td><td>State Machine guardrail validation</td><td>P2</td><td>ReleaseGate::state_machine::risk-score-39</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-006-USER-EXPERIENCE</td><td>User Experience guardrail validation</td><td>P2</td><td>ReleaseGate::user_experience::risk-score-39</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr></tbody>
     </table>
     <h2>Orchestration Trace</h2>
-    <ol><li><strong>Sentinel QA Agent</strong>: Loaded change &#x27;AI-assisted invoice approval and refund workflow&#x27; with 6 changed files.</li><li><strong>Risk Classifier</strong>: Detected 6 risk signals.</li><li><strong>Test Planner</strong>: Generated 6 UiPath Test Cloud candidate cases.</li><li><strong>UiPath Orchestrator Adapter</strong>: Produced 6 test results for demo mode.</li><li><strong>Human Approval Gate</strong>: Release decision is not finalized until the owner reviews failed or high-risk tests.</li></ol>
+    <ol><li><strong>Sentinel Release Guard</strong>: Loaded change &#x27;AI-assisted invoice approval and refund workflow&#x27; with 6 changed files.</li><li><strong>Risk Classifier</strong>: Detected 6 risk signals.</li><li><strong>Test Planner</strong>: Generated 6 security-aware release gate cases.</li><li><strong>CI Gate Simulator</strong>: Produced 6 test results for demo mode.</li><li><strong>Human Approval Gate</strong>: Release decision is not finalized until the owner reviews failed or high-risk tests.</li></ol>
   </main>
 </body>
 </html>

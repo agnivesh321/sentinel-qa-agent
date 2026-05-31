@@ -1,6 +1,6 @@
-# Sentinel QA Agent Report
+# Sentinel Release Guard Report
 
-Generated: 2026-05-31T07:33:30Z
+Generated: 2026-05-31T10:26:28Z
 Change: AI-assisted invoice approval and refund workflow
 Release risk score: 96/100
 Decision: BLOCK_RELEASE_PENDING_HUMAN_REVIEW
@@ -30,15 +30,15 @@ Finance wants to reduce manual refund review time without losing release control
   Evidence: keyword:dashboard, keyword:screen, file:app/ui/refund_review_dashboard.tsx
   Impact: Quality signal that can increase regression coverage requirements.
 
-## Test Cloud Cases
+## Release Gate Cases
 
 ### SQA-001-PAYMENT: Payment guardrail validation
 
 - Priority: P1
-- UiPath asset: TestCloud::payment::risk-score-78
+- Control asset: ReleaseGate::payment::risk-score-78
 - Human gate: yes
 - Steps:
-  - Create a UiPath Test Cloud test set for this risk category.
+  - Create a focused automated test group for this risk category.
   - Verify price, currency, tax, and discount values are not client-trustable.
   - Verify failed payment and retry states do not duplicate orders.
   - Verify refunds and cancellation paths require the correct actor.
@@ -49,10 +49,10 @@ Finance wants to reduce manual refund review time without losing release control
 ### SQA-002-AUTHENTICATION: Authentication guardrail validation
 
 - Priority: P1
-- UiPath asset: TestCloud::authentication::risk-score-56
+- Control asset: ReleaseGate::authentication::risk-score-56
 - Human gate: yes
 - Steps:
-  - Create a UiPath Test Cloud test set for this risk category.
+  - Create a focused automated test group for this risk category.
   - Verify unauthenticated users cannot access protected actions.
   - Verify lower-privilege users cannot call admin or owner-only actions.
   - Verify session expiry and refresh behavior after identity changes.
@@ -63,10 +63,10 @@ Finance wants to reduce manual refund review time without losing release control
 ### SQA-003-AI-AGENT: Ai Agent guardrail validation
 
 - Priority: P1
-- UiPath asset: TestCloud::ai_agent::risk-score-56
+- Control asset: ReleaseGate::ai_agent::risk-score-56
 - Human gate: yes
 - Steps:
-  - Create a UiPath Test Cloud test set for this risk category.
+  - Create a focused automated test group for this risk category.
   - Verify prompt-injection content cannot trigger unauthorized tool use.
   - Verify the agent asks for human approval before irreversible actions.
   - Verify tool output is validated before being written to systems of record.
@@ -77,10 +77,10 @@ Finance wants to reduce manual refund review time without losing release control
 ### SQA-004-EXTERNAL-INTEGRATION: External Integration guardrail validation
 
 - Priority: P2
-- UiPath asset: TestCloud::external_integration::risk-score-52
+- Control asset: ReleaseGate::external_integration::risk-score-52
 - Human gate: no
 - Steps:
-  - Create a UiPath Test Cloud test set for this risk category.
+  - Create a focused automated test group for this risk category.
   - Verify retry, timeout, duplicate-event, and partial-failure handling.
   - Verify webhook signatures or trusted-source checks are enforced.
   - Verify external API errors route to a human review queue.
@@ -91,10 +91,10 @@ Finance wants to reduce manual refund review time without losing release control
 ### SQA-005-STATE-MACHINE: State Machine guardrail validation
 
 - Priority: P2
-- UiPath asset: TestCloud::state_machine::risk-score-39
+- Control asset: ReleaseGate::state_machine::risk-score-39
 - Human gate: no
 - Steps:
-  - Create a UiPath Test Cloud test set for this risk category.
+  - Create a focused automated test group for this risk category.
   - Verify the changed workflow still completes successfully.
   - Verify rollback and error handling produce a clear human-visible state.
   - Verify audit logs include actor, action, timestamp, and changed object.
@@ -105,10 +105,10 @@ Finance wants to reduce manual refund review time without losing release control
 ### SQA-006-USER-EXPERIENCE: User Experience guardrail validation
 
 - Priority: P2
-- UiPath asset: TestCloud::user_experience::risk-score-39
+- Control asset: ReleaseGate::user_experience::risk-score-39
 - Human gate: no
 - Steps:
-  - Create a UiPath Test Cloud test set for this risk category.
+  - Create a focused automated test group for this risk category.
   - Verify the changed workflow still completes successfully.
   - Verify rollback and error handling produce a clear human-visible state.
   - Verify audit logs include actor, action, timestamp, and changed object.
@@ -120,19 +120,19 @@ Finance wants to reduce manual refund review time without losing release control
 
 - SQA-001-PAYMENT: failed
   Finding: Checkout retry produced two invoice records for one approved payment.
-  Action: Block release and create a human review task in UiPath Action Center.
+  Action: Block release and create a human review task for the release owner.
 - SQA-002-AUTHENTICATION: passed
   Finding: Validated expected control behavior in staged workflow.
-  Action: Keep evidence attached to the UiPath Test Cloud run.
+  Action: Keep evidence attached to the release gate run.
 - SQA-003-AI-AGENT: passed
   Finding: Validated expected control behavior in staged workflow.
-  Action: Keep evidence attached to the UiPath Test Cloud run.
+  Action: Keep evidence attached to the release gate run.
 - SQA-004-EXTERNAL-INTEGRATION: passed
   Finding: Validated expected control behavior in staged workflow.
-  Action: Keep evidence attached to the UiPath Test Cloud run.
+  Action: Keep evidence attached to the release gate run.
 - SQA-005-STATE-MACHINE: passed
   Finding: Validated expected control behavior in staged workflow.
-  Action: Keep evidence attached to the UiPath Test Cloud run.
+  Action: Keep evidence attached to the release gate run.
 - SQA-006-USER-EXPERIENCE: passed
   Finding: Validated expected control behavior in staged workflow.
-  Action: Keep evidence attached to the UiPath Test Cloud run.
+  Action: Keep evidence attached to the release gate run.

@@ -1,0 +1,1 @@
+# Sentinel Release Guard uses only the Python standard library.

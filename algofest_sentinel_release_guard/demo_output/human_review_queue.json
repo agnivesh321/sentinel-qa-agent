@@ -11,6 +11,6 @@
     "assignedTo": "Finance release owner",
     "priority": "High",
     "description": "Checkout retry produced two invoice records for one approved payment.",
-    "recommendedAction": "Block release and create a human review task in UiPath Action Center."
+    "recommendedAction": "Block release and create a human review task for the release owner."
   }
 ]
