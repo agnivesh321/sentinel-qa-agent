@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sentinel QA Agent</title>
+  <style>
+    :root {
+      --ink: #172026;
+      --muted: #66717d;
+      --line: #d8e0e7;
+      --panel: #f7f9fb;
+      --accent: #0f6f70;
+      --danger: #a82619;
+      --warn: #9b650d;
+      --good: #0f7a39;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: #ffffff; }
+    header { padding: 34px 44px 24px; border-bottom: 1px solid var(--line); }
+    main { padding: 30px 44px 44px; max-width: 1280px; }
+    h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: 0; }
+    h2 { margin: 30px 0 14px; font-size: 20px; letter-spacing: 0; }
+    p { line-height: 1.5; }
+    .meta { color: var(--muted); }
+    .decision { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 12px; margin-top: 20px; }
+    .metric { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 14px; min-height: 92px; }
+    .metric strong { display: block; margin-top: 8px; font-size: 24px; color: var(--accent); overflow-wrap: anywhere; }
+    .metric.block strong { color: var(--danger); }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .risk { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fff; }
+    .risk.critical, .risk.high { border-left: 5px solid var(--danger); }
+    .risk.medium { border-left: 5px solid var(--warn); }
+    .risk.low { border-left: 5px solid var(--good); }
+    .risk .row { display: flex; justify-content: space-between; gap: 12px; }
+    .risk small { color: var(--muted); overflow-wrap: anywhere; }
+    table { width: 100%; border-collapse: collapse; border: 1px solid var(--line); }
+    th, td { padding: 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #eef3f7; }
+    .badge { display: inline-block; min-width: 64px; text-align: center; border-radius: 999px; padding: 4px 8px; color: #fff; font-weight: 700; }
+    .badge.pass { background: var(--good); }
+    .badge.fail { background: var(--danger); }
+    ol { line-height: 1.6; }
+    @media (max-width: 900px) {
+      header, main { padding-left: 18px; padding-right: 18px; }
+      .decision, .grid { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sentinel QA Agent</h1>
+    <div class="meta">UiPath AgentHack Track 3: Test Cloud. Generated 2026-05-31T07:33:30Z.</div>
+  </header>
+  <main>
+    <p>A new AI agent reviews invoices, recommends refund approvals, and syncs payment state to the ERP. The release touches authentication, billing, webhook sync, and dashboard review screens.</p>
+    <section class="decision">
+      <div class="metric"><span>Release Risk</span><strong>96/100</strong></div>
+      <div class="metric block"><span>Decision</span><strong>BLOCK RELEASE PENDING HUMAN REVIEW</strong></div>
+      <div class="metric"><span>Generated Tests</span><strong>6</strong></div>
+      <div class="metric"><span>Human Gate</span><strong>Required</strong></div>
+    </section>
+    <h2>Risk Signals</h2>
+    <section class="grid">
+            <article class="risk high">
+              <div class="row"><strong>Payment</strong><span>78</span></div>
+              <p>Payment regressions can create revenue loss, fraud, or customer trust issues.</p>
+              <small>keyword:payment, keyword:invoice, keyword:billing, keyword:refund, file:app/billing/refunds.py, file:app/agents/invoice_refund_agent.py, file:app/ui/refund_review_dashboard.tsx, file:tests/test_refund_flow.py</small>
+            </article>
+            
+            <article class="risk medium">
+              <div class="row"><strong>Authentication</strong><span>56</span></div>
+              <p>Unauthorized access or privilege escalation can reach production users.</p>
+              <small>keyword:auth, keyword:role, file:app/auth/roles.py</small>
+            </article>
+            
+            <article class="risk medium">
+              <div class="row"><strong>Ai Agent</strong><span>56</span></div>
+              <p>AI agent changes can create unsafe tool calls, prompt injection, or unreviewed decisions.</p>
+              <small>keyword:agent, keyword:ai, file:app/agents/invoice_refund_agent.py</small>
+            </article>
+            
+            <article class="risk medium">
+              <div class="row"><strong>External Integration</strong><span>52</span></div>
+              <p>Integration failures can silently corrupt downstream workflows.</p>
+              <small>keyword:webhook, keyword:integration, keyword:sync, keyword:erp, file:app/integrations/erp_webhook.py</small>
+            </article>
+            
+            <article class="risk medium">
+              <div class="row"><strong>State Machine</strong><span>39</span></div>
+              <p>Quality signal that can increase regression coverage requirements.</p>
+              <small>keyword:state, keyword:approval, keyword:workflow</small>
+            </article>
+            
+            <article class="risk medium">
+              <div class="row"><strong>User Experience</strong><span>39</span></div>
+              <p>Quality signal that can increase regression coverage requirements.</p>
+              <small>keyword:dashboard, keyword:screen, file:app/ui/refund_review_dashboard.tsx</small>
+            </article>
+            </section>
+    <h2>UiPath Test Cloud Plan</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Test</th><th>Priority</th><th>UiPath Asset</th><th>Status</th><th>Finding</th></tr></thead>
+      <tbody><tr><td>SQA-001-PAYMENT</td><td>Payment guardrail validation</td><td>P1</td><td>TestCloud::payment::risk-score-78</td><td><span class='badge fail'>failed</span></td><td>Checkout retry produced two invoice records for one approved payment.</td></tr><tr><td>SQA-002-AUTHENTICATION</td><td>Authentication guardrail validation</td><td>P1</td><td>TestCloud::authentication::risk-score-56</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-003-AI-AGENT</td><td>Ai Agent guardrail validation</td><td>P1</td><td>TestCloud::ai_agent::risk-score-56</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-004-EXTERNAL-INTEGRATION</td><td>External Integration guardrail validation</td><td>P2</td><td>TestCloud::external_integration::risk-score-52</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-005-STATE-MACHINE</td><td>State Machine guardrail validation</td><td>P2</td><td>TestCloud::state_machine::risk-score-39</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr><tr><td>SQA-006-USER-EXPERIENCE</td><td>User Experience guardrail validation</td><td>P2</td><td>TestCloud::user_experience::risk-score-39</td><td><span class='badge pass'>passed</span></td><td>Validated expected control behavior in staged workflow.</td></tr></tbody>
+    </table>
+    <h2>Orchestration Trace</h2>
+    <ol><li><strong>Sentinel QA Agent</strong>: Loaded change &#x27;AI-assisted invoice approval and refund workflow&#x27; with 6 changed files.</li><li><strong>Risk Classifier</strong>: Detected 6 risk signals.</li><li><strong>Test Planner</strong>: Generated 6 UiPath Test Cloud candidate cases.</li><li><strong>UiPath Orchestrator Adapter</strong>: Produced 6 test results for demo mode.</li><li><strong>Human Approval Gate</strong>: Release decision is not finalized until the owner reviews failed or high-risk tests.</li></ol>
+  </main>
+</body>
+</html>

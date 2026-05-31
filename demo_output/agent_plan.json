@@ -1,0 +1,313 @@
+{
+  "generated_at": "2026-05-31T07:33:30Z",
+  "change": {
+    "title": "AI-assisted invoice approval and refund workflow",
+    "summary": "A new AI agent reviews invoices, recommends refund approvals, and syncs payment state to the ERP. The release touches authentication, billing, webhook sync, and dashboard review screens.",
+    "changed_files": [
+      "app/auth/roles.py",
+      "app/billing/refunds.py",
+      "app/integrations/erp_webhook.py",
+      "app/agents/invoice_refund_agent.py",
+      "app/ui/refund_review_dashboard.tsx",
+      "tests/test_refund_flow.py"
+    ],
+    "diff_excerpt": "Adds ai_agent_recommend_refund(), updates admin role checks, sends refund webhook events to ERP, and changes dashboard state from pending_review to auto_recommended. TODO: verify webhook replay handling and human approval requirement for high value refunds.",
+    "business_context": "Finance wants to reduce manual refund review time without losing release control. The risky part is that an AI agent can recommend refunds and downstream systems update automatically unless a human approval gate catches high-risk cases.",
+    "release_deadline": "2026-06-29",
+    "owner": "Finance release owner"
+  },
+  "release_risk_score": 96,
+  "release_decision": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW",
+  "risk_signals": [
+    {
+      "category": "payment",
+      "severity": "high",
+      "score": 78,
+      "evidence": [
+        "keyword:payment",
+        "keyword:invoice",
+        "keyword:billing",
+        "keyword:refund",
+        "file:app/billing/refunds.py",
+        "file:app/agents/invoice_refund_agent.py",
+        "file:app/ui/refund_review_dashboard.tsx",
+        "file:tests/test_refund_flow.py"
+      ],
+      "impact": "Payment regressions can create revenue loss, fraud, or customer trust issues."
+    },
+    {
+      "category": "authentication",
+      "severity": "medium",
+      "score": 56,
+      "evidence": [
+        "keyword:auth",
+        "keyword:role",
+        "file:app/auth/roles.py"
+      ],
+      "impact": "Unauthorized access or privilege escalation can reach production users."
+    },
+    {
+      "category": "ai_agent",
+      "severity": "medium",
+      "score": 56,
+      "evidence": [
+        "keyword:agent",
+        "keyword:ai",
+        "file:app/agents/invoice_refund_agent.py"
+      ],
+      "impact": "AI agent changes can create unsafe tool calls, prompt injection, or unreviewed decisions."
+    },
+    {
+      "category": "external_integration",
+      "severity": "medium",
+      "score": 52,
+      "evidence": [
+        "keyword:webhook",
+        "keyword:integration",
+        "keyword:sync",
+        "keyword:erp",
+        "file:app/integrations/erp_webhook.py"
+      ],
+      "impact": "Integration failures can silently corrupt downstream workflows."
+    },
+    {
+      "category": "state_machine",
+      "severity": "medium",
+      "score": 39,
+      "evidence": [
+        "keyword:state",
+        "keyword:approval",
+        "keyword:workflow"
+      ],
+      "impact": "Quality signal that can increase regression coverage requirements."
+    },
+    {
+      "category": "user_experience",
+      "severity": "medium",
+      "score": 39,
+      "evidence": [
+        "keyword:dashboard",
+        "keyword:screen",
+        "file:app/ui/refund_review_dashboard.tsx"
+      ],
+      "impact": "Quality signal that can increase regression coverage requirements."
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "SQA-001-PAYMENT",
+      "title": "Payment guardrail validation",
+      "category": "payment",
+      "priority": "P1",
+      "automation_target": "UiPath Test Cloud",
+      "preconditions": [
+        "Test environment seeded with admin, standard user, and read-only user.",
+        "Release candidate build is deployed to staging.",
+        "UiPath robot has access only to test credentials and non-production data."
+      ],
+      "steps": [
+        "Create a UiPath Test Cloud test set for this risk category.",
+        "Verify price, currency, tax, and discount values are not client-trustable.",
+        "Verify failed payment and retry states do not duplicate orders.",
+        "Verify refunds and cancellation paths require the correct actor.",
+        "Capture screenshots, logs, and API traces for evidence.",
+        "Route failed or ambiguous results to the release owner for approval."
+      ],
+      "expected_result": "All controls behave as expected, no unauthorized action succeeds, and any failure creates a human-review task before release.",
+      "ui_path_asset": "TestCloud::payment::risk-score-78",
+      "human_gate": true
+    },
+    {
+      "id": "SQA-002-AUTHENTICATION",
+      "title": "Authentication guardrail validation",
+      "category": "authentication",
+      "priority": "P1",
+      "automation_target": "UiPath Test Cloud",
+      "preconditions": [
+        "Test environment seeded with admin, standard user, and read-only user.",
+        "Release candidate build is deployed to staging.",
+        "UiPath robot has access only to test credentials and non-production data."
+      ],
+      "steps": [
+        "Create a UiPath Test Cloud test set for this risk category.",
+        "Verify unauthenticated users cannot access protected actions.",
+        "Verify lower-privilege users cannot call admin or owner-only actions.",
+        "Verify session expiry and refresh behavior after identity changes.",
+        "Capture screenshots, logs, and API traces for evidence.",
+        "Route failed or ambiguous results to the release owner for approval."
+      ],
+      "expected_result": "All controls behave as expected, no unauthorized action succeeds, and any failure creates a human-review task before release.",
+      "ui_path_asset": "TestCloud::authentication::risk-score-56",
+      "human_gate": true
+    },
+    {
+      "id": "SQA-003-AI-AGENT",
+      "title": "Ai Agent guardrail validation",
+      "category": "ai_agent",
+      "priority": "P1",
+      "automation_target": "UiPath Test Cloud",
+      "preconditions": [
+        "Test environment seeded with admin, standard user, and read-only user.",
+        "Release candidate build is deployed to staging.",
+        "UiPath robot has access only to test credentials and non-production data."
+      ],
+      "steps": [
+        "Create a UiPath Test Cloud test set for this risk category.",
+        "Verify prompt-injection content cannot trigger unauthorized tool use.",
+        "Verify the agent asks for human approval before irreversible actions.",
+        "Verify tool output is validated before being written to systems of record.",
+        "Capture screenshots, logs, and API traces for evidence.",
+        "Route failed or ambiguous results to the release owner for approval."
+      ],
+      "expected_result": "All controls behave as expected, no unauthorized action succeeds, and any failure creates a human-review task before release.",
+      "ui_path_asset": "TestCloud::ai_agent::risk-score-56",
+      "human_gate": true
+    },
+    {
+      "id": "SQA-004-EXTERNAL-INTEGRATION",
+      "title": "External Integration guardrail validation",
+      "category": "external_integration",
+      "priority": "P2",
+      "automation_target": "UiPath Test Cloud",
+      "preconditions": [
+        "Test environment seeded with admin, standard user, and read-only user.",
+        "Release candidate build is deployed to staging.",
+        "UiPath robot has access only to test credentials and non-production data."
+      ],
+      "steps": [
+        "Create a UiPath Test Cloud test set for this risk category.",
+        "Verify retry, timeout, duplicate-event, and partial-failure handling.",
+        "Verify webhook signatures or trusted-source checks are enforced.",
+        "Verify external API errors route to a human review queue.",
+        "Capture screenshots, logs, and API traces for evidence.",
+        "Route failed or ambiguous results to the release owner for approval."
+      ],
+      "expected_result": "All controls behave as expected, no unauthorized action succeeds, and any failure creates a human-review task before release.",
+      "ui_path_asset": "TestCloud::external_integration::risk-score-52",
+      "human_gate": false
+    },
+    {
+      "id": "SQA-005-STATE-MACHINE",
+      "title": "State Machine guardrail validation",
+      "category": "state_machine",
+      "priority": "P2",
+      "automation_target": "UiPath Test Cloud",
+      "preconditions": [
+        "Test environment seeded with admin, standard user, and read-only user.",
+        "Release candidate build is deployed to staging.",
+        "UiPath robot has access only to test credentials and non-production data."
+      ],
+      "steps": [
+        "Create a UiPath Test Cloud test set for this risk category.",
+        "Verify the changed workflow still completes successfully.",
+        "Verify rollback and error handling produce a clear human-visible state.",
+        "Verify audit logs include actor, action, timestamp, and changed object.",
+        "Capture screenshots, logs, and API traces for evidence.",
+        "Route failed or ambiguous results to the release owner for approval."
+      ],
+      "expected_result": "All controls behave as expected, no unauthorized action succeeds, and any failure creates a human-review task before release.",
+      "ui_path_asset": "TestCloud::state_machine::risk-score-39",
+      "human_gate": false
+    },
+    {
+      "id": "SQA-006-USER-EXPERIENCE",
+      "title": "User Experience guardrail validation",
+      "category": "user_experience",
+      "priority": "P2",
+      "automation_target": "UiPath Test Cloud",
+      "preconditions": [
+        "Test environment seeded with admin, standard user, and read-only user.",
+        "Release candidate build is deployed to staging.",
+        "UiPath robot has access only to test credentials and non-production data."
+      ],
+      "steps": [
+        "Create a UiPath Test Cloud test set for this risk category.",
+        "Verify the changed workflow still completes successfully.",
+        "Verify rollback and error handling produce a clear human-visible state.",
+        "Verify audit logs include actor, action, timestamp, and changed object.",
+        "Capture screenshots, logs, and API traces for evidence.",
+        "Route failed or ambiguous results to the release owner for approval."
+      ],
+      "expected_result": "All controls behave as expected, no unauthorized action succeeds, and any failure creates a human-review task before release.",
+      "ui_path_asset": "TestCloud::user_experience::risk-score-39",
+      "human_gate": false
+    }
+  ],
+  "simulated_results": [
+    {
+      "test_id": "SQA-001-PAYMENT",
+      "status": "failed",
+      "duration_seconds": 46,
+      "finding": "Checkout retry produced two invoice records for one approved payment.",
+      "recommended_action": "Block release and create a human review task in UiPath Action Center."
+    },
+    {
+      "test_id": "SQA-002-AUTHENTICATION",
+      "status": "passed",
+      "duration_seconds": 57,
+      "finding": "Validated expected control behavior in staged workflow.",
+      "recommended_action": "Keep evidence attached to the UiPath Test Cloud run."
+    },
+    {
+      "test_id": "SQA-003-AI-AGENT",
+      "status": "passed",
+      "duration_seconds": 68,
+      "finding": "Validated expected control behavior in staged workflow.",
+      "recommended_action": "Keep evidence attached to the UiPath Test Cloud run."
+    },
+    {
+      "test_id": "SQA-004-EXTERNAL-INTEGRATION",
+      "status": "passed",
+      "duration_seconds": 79,
+      "finding": "Validated expected control behavior in staged workflow.",
+      "recommended_action": "Keep evidence attached to the UiPath Test Cloud run."
+    },
+    {
+      "test_id": "SQA-005-STATE-MACHINE",
+      "status": "passed",
+      "duration_seconds": 90,
+      "finding": "Validated expected control behavior in staged workflow.",
+      "recommended_action": "Keep evidence attached to the UiPath Test Cloud run."
+    },
+    {
+      "test_id": "SQA-006-USER-EXPERIENCE",
+      "status": "passed",
+      "duration_seconds": 101,
+      "finding": "Validated expected control behavior in staged workflow.",
+      "recommended_action": "Keep evidence attached to the UiPath Test Cloud run."
+    }
+  ],
+  "human_approval_required": true,
+  "orchestration_trace": [
+    {
+      "time": "2026-05-31T07:33:30Z",
+      "actor": "Sentinel QA Agent",
+      "step": "ingest_change",
+      "detail": "Loaded change 'AI-assisted invoice approval and refund workflow' with 6 changed files."
+    },
+    {
+      "time": "2026-05-31T07:33:30Z",
+      "actor": "Risk Classifier",
+      "step": "classify_release_risk",
+      "detail": "Detected 6 risk signals."
+    },
+    {
+      "time": "2026-05-31T07:33:30Z",
+      "actor": "Test Planner",
+      "step": "generate_test_cloud_plan",
+      "detail": "Generated 6 UiPath Test Cloud candidate cases."
+    },
+    {
+      "time": "2026-05-31T07:33:30Z",
+      "actor": "UiPath Orchestrator Adapter",
+      "step": "simulate_test_cloud_run",
+      "detail": "Produced 6 test results for demo mode."
+    },
+    {
+      "time": "2026-05-31T07:33:30Z",
+      "actor": "Human Approval Gate",
+      "step": "route_release_decision",
+      "detail": "Release decision is not finalized until the owner reviews failed or high-risk tests."
+    }
+  ]
+}

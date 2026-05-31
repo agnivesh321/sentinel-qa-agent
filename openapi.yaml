@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: Sentinel QA Agent API
+  version: "1.0.0"
+  description: API for generating security-aware UiPath Test Cloud release plans.
+servers:
+  - url: https://YOUR_HOSTED_URL
+paths:
+  /healthz:
+    get:
+      operationId: healthz
+      summary: Check service health.
+      responses:
+        "200":
+          description: Health result.
+          content:
+            application/json:
+              schema:
+                type: object
+  /analyze:
+    post:
+      operationId: analyzeReleaseChange
+      summary: Generate release risk, Test Cloud cases, and human review tasks.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, summary, changed_files]
+              properties:
+                title:
+                  type: string
+                summary:
+                  type: string
+                changed_files:
+                  type: array
+                  items:
+                    type: string
+                diff_excerpt:
+                  type: string
+                business_context:
+                  type: string
+                release_deadline:
+                  type: string
+                owner:
+                  type: string
+      responses:
+        "200":
+          description: Generated plan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plan:
+                    type: object
+                  dashboard:
+                    type: string

@@ -1,0 +1,16 @@
+{
+  "title": "AI-assisted invoice approval and refund workflow",
+  "summary": "A new AI agent reviews invoices, recommends refund approvals, and syncs payment state to the ERP. The release touches authentication, billing, webhook sync, and dashboard review screens.",
+  "business_context": "Finance wants to reduce manual refund review time without losing release control. The risky part is that an AI agent can recommend refunds and downstream systems update automatically unless a human approval gate catches high-risk cases.",
+  "owner": "Finance release owner",
+  "release_deadline": "2026-06-29",
+  "changed_files": [
+    "app/auth/roles.py",
+    "app/billing/refunds.py",
+    "app/integrations/erp_webhook.py",
+    "app/agents/invoice_refund_agent.py",
+    "app/ui/refund_review_dashboard.tsx",
+    "tests/test_refund_flow.py"
+  ],
+  "diff_excerpt": "Adds ai_agent_recommend_refund(), updates admin role checks, sends refund webhook events to ERP, and changes dashboard state from pending_review to auto_recommended. TODO: verify webhook replay handling and human approval requirement for high value refunds."
+}
