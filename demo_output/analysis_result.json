@@ -1,6 +1,6 @@
 {
   "tenant": "acme-finance",
-  "generated_at": "2026-06-02T16:42:21Z",
+  "generated_at": "2026-06-02T16:56:18Z",
   "change": {
     "title": "AI-assisted refund approval and ERP sync",
     "summary": "Adds an AI agent that recommends refund approvals, updates billing roles, stores customer refund notes, and syncs invoice status to the ERP webhook.",
@@ -208,28 +208,28 @@
   ],
   "audit_events": [
     {
-      "timestamp": "2026-06-02T16:42:21Z",
+      "timestamp": "2026-06-02T16:56:18Z",
       "tenant": "acme-finance",
       "actor": "Finance release owner",
       "event": "change_ingested",
       "details": "AI-assisted refund approval and ERP sync"
     },
     {
-      "timestamp": "2026-06-02T16:42:21Z",
+      "timestamp": "2026-06-02T16:56:18Z",
       "tenant": "acme-finance",
       "actor": "sentinel-agent",
       "event": "risk_score_calculated",
       "details": "risk_score=96"
     },
     {
-      "timestamp": "2026-06-02T16:42:21Z",
+      "timestamp": "2026-06-02T16:56:18Z",
       "tenant": "acme-finance",
       "actor": "sentinel-agent",
       "event": "release_decision_recorded",
       "details": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW"
     },
     {
-      "timestamp": "2026-06-02T16:42:21Z",
+      "timestamp": "2026-06-02T16:56:18Z",
       "tenant": "acme-finance",
       "actor": "Finance release owner",
       "event": "approval_gate_selected",
