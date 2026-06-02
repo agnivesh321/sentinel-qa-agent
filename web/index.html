@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>hidden.reviews - Hidden Reviews AI</title>
+    <meta
+      name="description"
+      content="hidden.reviews finds buried customer feedback across shadow channels and turns it into ranked product risks and founder action plans."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Workspace navigation">
+        <div class="brand">
+          <div class="mark">hr</div>
+          <div>
+            <strong>hidden.reviews</strong>
+            <span>customer truth agent</span>
+          </div>
+        </div>
+        <nav>
+          <a href="#scan" class="active">Scan</a>
+          <a href="#clusters">Patterns</a>
+          <a href="#actions">Actions</a>
+          <a href="#domain">Domain</a>
+        </nav>
+        <div class="domain-card">
+          <span>Domain Roulette</span>
+          <strong>hidden.reviews</strong>
+          <em id="sidebarScore">Score pending</em>
+        </div>
+      </aside>
+
+      <main>
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">DeveloperWeek NYC / name.com Domain Roulette</p>
+            <h1>Find the reviews customers never put in one place.</h1>
+          </div>
+          <div class="header-actions">
+            <button id="copyBriefButton" class="secondary-button" type="button" title="Copy founder brief">
+              <i data-lucide="copy"></i>
+              <span>Copy brief</span>
+            </button>
+            <button id="scanTopButton" class="primary-button" type="button">
+              <i data-lucide="radar"></i>
+              <span>Run scan</span>
+            </button>
+          </div>
+        </header>
+
+        <section class="scan-grid" id="scan">
+          <div class="panel intake">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Feedback bundle</p>
+                <h2>NimbusLedger mixed-channel evidence</h2>
+              </div>
+              <button id="resetButton" class="icon-button" type="button" title="Reset sample">
+                <i data-lucide="rotate-ccw"></i>
+              </button>
+            </div>
+            <label for="customerCount">Customer count</label>
+            <input id="customerCount" type="number" min="1" value="1800" />
+            <label for="feedbackInput">Evidence JSON</label>
+            <textarea id="feedbackInput" spellcheck="false"></textarea>
+            <button id="scanButton" class="primary-button full-width" type="button">
+              <i data-lucide="search-check"></i>
+              <span>Reveal hidden reviews</span>
+            </button>
+          </div>
+
+          <div class="panel signal-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Hidden signal</p>
+                <h2 id="topPattern">Waiting for scan</h2>
+              </div>
+              <span id="riskBadge" class="badge neutral">Pending</span>
+            </div>
+
+            <div class="signal-layout">
+              <div class="score-orbit" id="scoreOrbit">
+                <strong id="signalScore">0</strong>
+                <span>/100</span>
+              </div>
+              <div class="metrics">
+                <div>
+                  <span>Domain fit</span>
+                  <strong id="domainFit">0/100</strong>
+                </div>
+                <div>
+                  <span>Top source</span>
+                  <strong id="topSource">Pending</strong>
+                </div>
+                <div>
+                  <span>Pricing tier</span>
+                  <strong id="tierName">Scout</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="source-mix" id="sourceMix"></div>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="panel" id="clusters">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Pattern ranking</p>
+                <h2>Buried customer risk by theme</h2>
+              </div>
+              <span id="clusterCount" class="pill">0 patterns</span>
+            </div>
+            <div class="cluster-list" id="clusterList"></div>
+          </div>
+
+          <div class="panel" id="actions">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Founder action plan</p>
+                <h2>What to ship next</h2>
+              </div>
+              <span id="actionCount" class="pill">0 actions</span>
+            </div>
+            <ol class="action-list" id="actionList"></ol>
+          </div>
+        </section>
+
+        <section class="panel evidence-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Evidence board</p>
+              <h2>Customer truth across hidden channels</h2>
+            </div>
+            <span id="evidenceCount" class="pill strong">0 evidence events</span>
+          </div>
+          <div class="evidence-table" id="evidenceTable"></div>
+        </section>
+
+        <section class="domain-strip" id="domain">
+          <div>
+            <p class="eyebrow">Domain connection</p>
+            <h2>hidden.reviews is literal, memorable, and product-native.</h2>
+          </div>
+          <div class="domain-proof">
+            <span>Brand</span>
+            <strong>hidden.reviews</strong>
+          </div>
+          <div class="domain-proof">
+            <span>Buyer</span>
+            <strong>SaaS founders</strong>
+          </div>
+          <div class="domain-proof">
+            <span>Model</span>
+            <strong id="priceModel">$149/mo</strong>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

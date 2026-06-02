@@ -1,0 +1,42 @@
+{
+  "product": "NimbusLedger",
+  "domain": "hidden.reviews",
+  "sources": [
+    {
+      "source": "Reddit thread",
+      "source_type": "public_shadow_channel",
+      "author": "saas_ops_17",
+      "text": "NimbusLedger looked cheap until the surprise overage bill. Pricing is technically documented but hidden behind three clicks. We churned after finance called it a trust problem."
+    },
+    {
+      "source": "GitHub issue",
+      "source_type": "public_shadow_channel",
+      "author": "integration_builder",
+      "text": "Webhook retries are not idempotent. Our ERP sync duplicated invoice status updates twice during a timeout. Support said it is an edge case, but it broke month-end close."
+    },
+    {
+      "source": "App review",
+      "source_type": "public_review",
+      "author": "founder_amy",
+      "text": "The dashboard is useful after setup, but onboarding is confusing. I could not find the sandbox API key, the docs sent me in circles, and the first import failed silently."
+    },
+    {
+      "source": "Sales call note",
+      "source_type": "private_sales_note",
+      "author": "account_exec",
+      "text": "Prospect likes the product, but they asked if pricing alerts exist before overages. Competitor LedgerFox won their previous deal because it had spend guardrails and clearer review evidence."
+    },
+    {
+      "source": "Support email",
+      "source_type": "private_support",
+      "author": "ops_manager",
+      "text": "We need a weekly executive digest of complaints. Right now the worst reviews are hidden in support, Reddit, GitHub issues, and sales notes, so product leaders see the pattern too late."
+    },
+    {
+      "source": "Community Discord",
+      "source_type": "public_shadow_channel",
+      "author": "migrating_admin",
+      "text": "The import wizard says success even when three records fail validation. We only noticed after customers complained about missing invoice rows."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "hidden-reviews-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Domain Roulette project for hidden.reviews",
+  "scripts": {
+    "start": "python -m http.server 5174 --directory web",
+    "test": "python -m unittest discover -s tests"
+  }
+}

@@ -1,0 +1,12 @@
+source,source_type,author,category,severity,hidden_weight,evidence
+Reddit thread,public_shadow_channel,saas_ops_17,pricing_trust,high,78,NimbusLedger looked cheap until the surprise overage bill.
+Reddit thread,public_shadow_channel,saas_ops_17,executive_visibility,low,29,Pricing is technically documented but hidden behind three clicks.
+GitHub issue,public_shadow_channel,integration_builder,integration_reliability,critical,81,Webhook retries are not idempotent.
+App review,public_review,founder_amy,onboarding_confusion,medium,48,"The dashboard is useful after setup, but onboarding is confusing."
+App review,public_review,founder_amy,customer_love,low,-16,"The dashboard is useful after setup, but onboarding is confusing."
+Sales call note,private_sales_note,account_exec,pricing_trust,high,62,"Prospect likes the product, but they asked if pricing alerts exist before overages."
+Sales call note,private_sales_note,account_exec,competitor_pressure,medium,45,"Prospect likes the product, but they asked if pricing alerts exist before overages."
+Sales call note,private_sales_note,account_exec,customer_love,low,-20,Competitor LedgerFox won their previous deal because it had spend guardrails and clearer review evidence.
+Support email,private_support,ops_manager,executive_visibility,high,60,We need a weekly executive digest of complaints.
+Community Discord,public_shadow_channel,migrating_admin,integration_reliability,medium,43,We only noticed after customers complained about missing invoice rows.
+Community Discord,public_shadow_channel,migrating_admin,onboarding_confusion,medium,48,The import wizard says success even when three records fail validation.

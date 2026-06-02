@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Scout",
+    "monthly_price_usd": 29,
+    "included_feedback_items": 250,
+    "target_customer": "Solo founders and student startup teams",
+    "overage_usd_per_100_items": 8
+  },
+  {
+    "name": "Growth",
+    "monthly_price_usd": 149,
+    "included_feedback_items": 7500,
+    "target_customer": "SaaS teams with public communities and support queues",
+    "overage_usd_per_100_items": 4
+  },
+  {
+    "name": "Command Center",
+    "monthly_price_usd": 499,
+    "included_feedback_items": 30000,
+    "target_customer": "Product orgs tracking many products, markets, or regions",
+    "overage_usd_per_100_items": 2
+  }
+]

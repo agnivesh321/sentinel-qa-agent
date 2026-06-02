@@ -1,0 +1,286 @@
+{
+  "product": "NimbusLedger",
+  "domain": "hidden.reviews",
+  "generated_at": "2026-06-02T17:40:50Z",
+  "hidden_signal_score": 97,
+  "domain_fit_score": 100,
+  "top_cluster": {
+    "category": "pricing_trust",
+    "label": "Pricing trust risk",
+    "severity": "critical",
+    "score": 100,
+    "source_count": 2,
+    "evidence_count": 2,
+    "why_it_matters": "Pricing distrust converts quiet complaints into churn and lost sales.",
+    "opportunity": "Publish proactive pricing guardrails and overage alerts before customers feel trapped.",
+    "representative_quotes": [
+      "NimbusLedger looked cheap until the surprise overage bill.",
+      "Prospect likes the product, but they asked if pricing alerts exist before overages."
+    ]
+  },
+  "clusters": [
+    {
+      "category": "pricing_trust",
+      "label": "Pricing trust risk",
+      "severity": "critical",
+      "score": 100,
+      "source_count": 2,
+      "evidence_count": 2,
+      "why_it_matters": "Pricing distrust converts quiet complaints into churn and lost sales.",
+      "opportunity": "Publish proactive pricing guardrails and overage alerts before customers feel trapped.",
+      "representative_quotes": [
+        "NimbusLedger looked cheap until the surprise overage bill.",
+        "Prospect likes the product, but they asked if pricing alerts exist before overages."
+      ]
+    },
+    {
+      "category": "integration_reliability",
+      "label": "Integration reliability",
+      "severity": "critical",
+      "score": 100,
+      "source_count": 2,
+      "evidence_count": 2,
+      "why_it_matters": "Integration bugs damage operational trust at the exact moment teams depend on the product.",
+      "opportunity": "Ship idempotency controls, replay-safe webhooks, and customer-visible sync health.",
+      "representative_quotes": [
+        "Webhook retries are not idempotent.",
+        "We only noticed after customers complained about missing invoice rows."
+      ]
+    },
+    {
+      "category": "onboarding_confusion",
+      "label": "Onboarding confusion",
+      "severity": "critical",
+      "score": 96,
+      "source_count": 2,
+      "evidence_count": 2,
+      "why_it_matters": "Confusing setup hides adoption friction until users abandon the product.",
+      "opportunity": "Replace scattered setup instructions with a guided onboarding checklist and failed-import evidence.",
+      "representative_quotes": [
+        "The dashboard is useful after setup, but onboarding is confusing.",
+        "The import wizard says success even when three records fail validation."
+      ]
+    },
+    {
+      "category": "executive_visibility",
+      "label": "Executive visibility gap",
+      "severity": "critical",
+      "score": 89,
+      "source_count": 2,
+      "evidence_count": 2,
+      "why_it_matters": "Teams lose the pattern when complaints are split across communities, support, and sales notes.",
+      "opportunity": "Create a weekly review digest that translates scattered complaints into product decisions.",
+      "representative_quotes": [
+        "Pricing is technically documented but hidden behind three clicks.",
+        "We need a weekly executive digest of complaints."
+      ]
+    },
+    {
+      "category": "competitor_pressure",
+      "label": "Competitor pressure",
+      "severity": "medium",
+      "score": 45,
+      "source_count": 1,
+      "evidence_count": 1,
+      "why_it_matters": "Competitor mentions are buying signals disguised as casual feedback.",
+      "opportunity": "Turn competitor wins into a counter-positioning roadmap with proof-backed gaps.",
+      "representative_quotes": [
+        "Prospect likes the product, but they asked if pricing alerts exist before overages."
+      ]
+    },
+    {
+      "category": "customer_love",
+      "label": "Customer love",
+      "severity": "low",
+      "score": 18,
+      "source_count": 2,
+      "evidence_count": 2,
+      "why_it_matters": "Positive feedback is useful, but it should not bury emerging product risk.",
+      "opportunity": "Preserve what customers already value while watching for new hidden complaints.",
+      "representative_quotes": [
+        "The dashboard is useful after setup, but onboarding is confusing.",
+        "Competitor LedgerFox won their previous deal because it had spend guardrails and clearer review evidence."
+      ]
+    }
+  ],
+  "evidence_events": [
+    {
+      "source": "Reddit thread",
+      "source_type": "public_shadow_channel",
+      "author": "saas_ops_17",
+      "category": "pricing_trust",
+      "severity": "high",
+      "evidence": "NimbusLedger looked cheap until the surprise overage bill.",
+      "hidden_weight": 78
+    },
+    {
+      "source": "Reddit thread",
+      "source_type": "public_shadow_channel",
+      "author": "saas_ops_17",
+      "category": "executive_visibility",
+      "severity": "low",
+      "evidence": "Pricing is technically documented but hidden behind three clicks.",
+      "hidden_weight": 29
+    },
+    {
+      "source": "GitHub issue",
+      "source_type": "public_shadow_channel",
+      "author": "integration_builder",
+      "category": "integration_reliability",
+      "severity": "critical",
+      "evidence": "Webhook retries are not idempotent.",
+      "hidden_weight": 81
+    },
+    {
+      "source": "App review",
+      "source_type": "public_review",
+      "author": "founder_amy",
+      "category": "onboarding_confusion",
+      "severity": "medium",
+      "evidence": "The dashboard is useful after setup, but onboarding is confusing.",
+      "hidden_weight": 48
+    },
+    {
+      "source": "App review",
+      "source_type": "public_review",
+      "author": "founder_amy",
+      "category": "customer_love",
+      "severity": "low",
+      "evidence": "The dashboard is useful after setup, but onboarding is confusing.",
+      "hidden_weight": -16
+    },
+    {
+      "source": "Sales call note",
+      "source_type": "private_sales_note",
+      "author": "account_exec",
+      "category": "pricing_trust",
+      "severity": "high",
+      "evidence": "Prospect likes the product, but they asked if pricing alerts exist before overages.",
+      "hidden_weight": 62
+    },
+    {
+      "source": "Sales call note",
+      "source_type": "private_sales_note",
+      "author": "account_exec",
+      "category": "competitor_pressure",
+      "severity": "medium",
+      "evidence": "Prospect likes the product, but they asked if pricing alerts exist before overages.",
+      "hidden_weight": 45
+    },
+    {
+      "source": "Sales call note",
+      "source_type": "private_sales_note",
+      "author": "account_exec",
+      "category": "customer_love",
+      "severity": "low",
+      "evidence": "Competitor LedgerFox won their previous deal because it had spend guardrails and clearer review evidence.",
+      "hidden_weight": -20
+    },
+    {
+      "source": "Support email",
+      "source_type": "private_support",
+      "author": "ops_manager",
+      "category": "executive_visibility",
+      "severity": "high",
+      "evidence": "We need a weekly executive digest of complaints.",
+      "hidden_weight": 60
+    },
+    {
+      "source": "Community Discord",
+      "source_type": "public_shadow_channel",
+      "author": "migrating_admin",
+      "category": "integration_reliability",
+      "severity": "medium",
+      "evidence": "We only noticed after customers complained about missing invoice rows.",
+      "hidden_weight": 43
+    },
+    {
+      "source": "Community Discord",
+      "source_type": "public_shadow_channel",
+      "author": "migrating_admin",
+      "category": "onboarding_confusion",
+      "severity": "medium",
+      "evidence": "The import wizard says success even when three records fail validation.",
+      "hidden_weight": 48
+    }
+  ],
+  "action_plan": [
+    {
+      "priority": "P0",
+      "title": "Launch pricing-alert guardrails and rewrite hidden overage language",
+      "owner": "Product lead",
+      "expected_impact": "Reduce churn risk and rescue expansion conversations before finance escalates.",
+      "evidence_categories": [
+        "pricing_trust"
+      ]
+    },
+    {
+      "priority": "P0",
+      "title": "Add replay-safe webhook diagnostics and duplicate invoice protection",
+      "owner": "Product lead",
+      "expected_impact": "Protect operational trust for finance teams during month-end workflows.",
+      "evidence_categories": [
+        "integration_reliability"
+      ]
+    },
+    {
+      "priority": "P1",
+      "title": "Ship guided onboarding with visible failed-import evidence",
+      "owner": "Product lead",
+      "expected_impact": "Shorten time to value and stop silent setup failures from becoming public complaints.",
+      "evidence_categories": [
+        "onboarding_confusion"
+      ]
+    },
+    {
+      "priority": "P1",
+      "title": "Send weekly hidden-review digest to product and founder stakeholders",
+      "owner": "Growth lead",
+      "expected_impact": "Expose cross-channel patterns before they become churn.",
+      "evidence_categories": [
+        "executive_visibility"
+      ]
+    },
+    {
+      "priority": "P1",
+      "title": "Create competitor-loss review board and counter-positioning copy",
+      "owner": "Growth lead",
+      "expected_impact": "Turn lost-deal language into roadmap and sales enablement.",
+      "evidence_categories": [
+        "competitor_pressure"
+      ]
+    },
+    {
+      "priority": "P1",
+      "title": "Instrument public shadow-channel monitoring",
+      "owner": "Customer intelligence",
+      "expected_impact": "Keep Reddit, GitHub, community, and app-store pain visible in one review cockpit.",
+      "evidence_categories": [
+        "executive_visibility"
+      ]
+    },
+    {
+      "priority": "P2",
+      "title": "Create a customer-proof changelog tied to review themes",
+      "owner": "Product marketing",
+      "expected_impact": "Show customers that hidden feedback becomes shipped improvements.",
+      "evidence_categories": [
+        "pricing_trust",
+        "onboarding_confusion"
+      ]
+    }
+  ],
+  "recommended_tier": {
+    "name": "Growth",
+    "monthly_price_usd": 149,
+    "included_feedback_items": 7500,
+    "target_customer": "SaaS teams with public communities and support queues",
+    "overage_usd_per_100_items": 4
+  },
+  "founder_summary": {
+    "one_line": "hidden.reviews finds the reviews customers never put in one place.",
+    "domain_connection": "The domain is literal: hidden.reviews becomes the command center for buried customer truth.",
+    "buyer": "Founders, PMs, and customer success teams at SaaS companies with fragmented feedback channels.",
+    "why_now": "AI lets teams scrape, cluster, and operationalize feedback faster than manual review meetings."
+  }
+}
