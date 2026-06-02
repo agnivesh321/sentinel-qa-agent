@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Starter",
+    "monthly_price_inr": 999,
+    "included_release_scans": 50,
+    "target_customer": "Indie builders and student startup teams",
+    "overage_inr_per_scan": 35
+  },
+  {
+    "name": "Growth",
+    "monthly_price_inr": 4999,
+    "included_release_scans": 500,
+    "target_customer": "SaaS teams shipping weekly with AI coding tools",
+    "overage_inr_per_scan": 18
+  },
+  {
+    "name": "Enterprise",
+    "monthly_price_inr": 24999,
+    "included_release_scans": 5000,
+    "target_customer": "Regulated engineering orgs with audit needs",
+    "overage_inr_per_scan": 8
+  }
+]

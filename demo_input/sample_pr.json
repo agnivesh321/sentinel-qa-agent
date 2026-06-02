@@ -1,0 +1,15 @@
+{
+  "title": "AI-assisted refund approval and ERP sync",
+  "summary": "Adds an AI agent that recommends refund approvals, updates billing roles, stores customer refund notes, and syncs invoice status to the ERP webhook.",
+  "changed_files": [
+    "services/ai_refund_agent.py",
+    "services/payments/refunds.py",
+    "services/auth/roles.py",
+    "integrations/erp_webhook.py",
+    "web/review_dashboard.html"
+  ],
+  "diff_excerpt": "agent can call approve_refund tool; role check moved client-side; webhook retry accepts unsigned events; customer email included in audit payload",
+  "business_context": "Finance operations team wants AI-speed refund handling without exposing customer data or approving fraudulent refunds.",
+  "release_deadline": "2026-06-18",
+  "owner": "Finance release owner"
+}

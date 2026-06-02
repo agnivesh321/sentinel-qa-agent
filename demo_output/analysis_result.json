@@ -1,0 +1,260 @@
+{
+  "tenant": "acme-finance",
+  "generated_at": "2026-06-02T16:42:21Z",
+  "change": {
+    "title": "AI-assisted refund approval and ERP sync",
+    "summary": "Adds an AI agent that recommends refund approvals, updates billing roles, stores customer refund notes, and syncs invoice status to the ERP webhook.",
+    "changed_files": [
+      "services/ai_refund_agent.py",
+      "services/payments/refunds.py",
+      "services/auth/roles.py",
+      "integrations/erp_webhook.py",
+      "web/review_dashboard.html"
+    ],
+    "diff_excerpt": "agent can call approve_refund tool; role check moved client-side; webhook retry accepts unsigned events; customer email included in audit payload",
+    "business_context": "Finance operations team wants AI-speed refund handling without exposing customer data or approving fraudulent refunds.",
+    "release_deadline": "2026-06-18",
+    "owner": "Finance release owner"
+  },
+  "release_risk_score": 96,
+  "release_decision": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW",
+  "human_approval_required": true,
+  "risk_signals": [
+    {
+      "category": "payment",
+      "severity": "medium",
+      "score": 44,
+      "evidence": [
+        "keyword:payment",
+        "keyword:invoice",
+        "keyword:billing",
+        "keyword:refund",
+        "file:services/ai_refund_agent.py",
+        "file:services/payments/refunds.py"
+      ],
+      "impact": "Payment regressions can create fraud, duplicate refunds, or revenue loss."
+    },
+    {
+      "category": "ai_agent",
+      "severity": "medium",
+      "score": 39,
+      "evidence": [
+        "keyword:ai agent",
+        "keyword:agent",
+        "keyword:tool",
+        "keyword:recommend",
+        "file:services/ai_refund_agent.py"
+      ],
+      "impact": "AI agent changes can create unsafe tool calls or unreviewed decisions."
+    },
+    {
+      "category": "external_integration",
+      "severity": "low",
+      "score": 32,
+      "evidence": [
+        "keyword:webhook",
+        "keyword:integration",
+        "keyword:sync",
+        "keyword:erp",
+        "keyword:unsigned",
+        "keyword:retry",
+        "file:integrations/erp_webhook.py"
+      ],
+      "impact": "Integration failures can silently corrupt downstream systems."
+    },
+    {
+      "category": "authentication",
+      "severity": "low",
+      "score": 31,
+      "evidence": [
+        "keyword:auth",
+        "keyword:role",
+        "file:services/auth/roles.py"
+      ],
+      "impact": "Unauthorized access or privilege escalation can reach production users."
+    },
+    {
+      "category": "data_exposure",
+      "severity": "low",
+      "score": 30,
+      "evidence": [
+        "keyword:email",
+        "keyword:audit payload"
+      ],
+      "impact": "Sensitive data exposure can create privacy and compliance incidents."
+    },
+    {
+      "category": "state_management",
+      "severity": "low",
+      "score": 22,
+      "evidence": [
+        "keyword:status",
+        "keyword:approval",
+        "keyword:review",
+        "file:web/review_dashboard.html"
+      ],
+      "impact": "State-machine bugs can approve, skip, or duplicate business workflows."
+    }
+  ],
+  "release_gates": [
+    {
+      "id": "SRG-001",
+      "title": "Verify refund approvals require server-side policy and the correct approver.",
+      "category": "payment",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-002",
+      "title": "Verify retry and failure paths cannot duplicate invoice or refund records.",
+      "category": "payment",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-003",
+      "title": "Verify prompt injection cannot trigger an irreversible tool call.",
+      "category": "ai_agent",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-004",
+      "title": "Verify the agent requires human approval before release-blocking or financial actions.",
+      "category": "ai_agent",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-005",
+      "title": "Verify webhook signatures and trusted-source checks are enforced.",
+      "category": "external_integration",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-006",
+      "title": "Verify replay, timeout, and partial-failure handling remains idempotent.",
+      "category": "external_integration",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-007",
+      "title": "Verify unauthenticated users cannot call protected release paths.",
+      "category": "authentication",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-008",
+      "title": "Verify lower-privilege users cannot execute owner or finance-only actions.",
+      "category": "authentication",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-009",
+      "title": "Verify audit payloads contain only fields allowed for the user's role.",
+      "category": "data_exposure",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-010",
+      "title": "Verify object references cannot expose another tenant's customer data.",
+      "category": "data_exposure",
+      "priority": "P0",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-011",
+      "title": "Verify state transitions cannot skip required review steps.",
+      "category": "state_management",
+      "priority": "P1",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    },
+    {
+      "id": "SRG-012",
+      "title": "Verify duplicate approval events are ignored after the first accepted decision.",
+      "category": "state_management",
+      "priority": "P1",
+      "owner": "Finance release owner",
+      "automated": true,
+      "expected_evidence": "passing regression evidence plus signed audit event"
+    }
+  ],
+  "audit_events": [
+    {
+      "timestamp": "2026-06-02T16:42:21Z",
+      "tenant": "acme-finance",
+      "actor": "Finance release owner",
+      "event": "change_ingested",
+      "details": "AI-assisted refund approval and ERP sync"
+    },
+    {
+      "timestamp": "2026-06-02T16:42:21Z",
+      "tenant": "acme-finance",
+      "actor": "sentinel-agent",
+      "event": "risk_score_calculated",
+      "details": "risk_score=96"
+    },
+    {
+      "timestamp": "2026-06-02T16:42:21Z",
+      "tenant": "acme-finance",
+      "actor": "sentinel-agent",
+      "event": "release_decision_recorded",
+      "details": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "timestamp": "2026-06-02T16:42:21Z",
+      "tenant": "acme-finance",
+      "actor": "Finance release owner",
+      "event": "approval_gate_selected",
+      "details": "human review required"
+    }
+  ],
+  "recommended_plan": {
+    "name": "Growth",
+    "monthly_price_inr": 4999,
+    "included_release_scans": 500,
+    "target_customer": "SaaS teams shipping weekly with AI coding tools",
+    "overage_inr_per_scan": 18
+  },
+  "metering": {
+    "api_units": 25,
+    "monthly_release_scans": 420,
+    "included_release_scans": 500,
+    "overage_scans": 0,
+    "estimated_monthly_bill_inr": 4999,
+    "gross_margin_story": "Deterministic scan cost stays near zero; optional LLM review is metered per release."
+  },
+  "judge_summary": {
+    "market_friction": "AI coding accelerates releases, but governance, test coverage, and audit evidence lag behind.",
+    "target_cohort": "SaaS engineering teams using AI coding agents for payments, auth, data, or workflow changes.",
+    "monetization": "Monthly SaaS tiers plus usage-based release scan overages.",
+    "why_now": "Every AI-generated pull request needs a release guardian before production."
+  }
+}

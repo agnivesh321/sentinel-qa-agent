@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sentinel SaaS - AI Release Risk Platform</title>
+    <meta
+      name="description"
+      content="Sentinel SaaS scores AI-generated software changes, generates release gates, preserves audit evidence, and meters usage for SaaS teams."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="side-nav" aria-label="Product navigation">
+        <div class="brand-mark">
+          <span class="brand-icon">S</span>
+          <div>
+            <strong>Sentinel SaaS</strong>
+            <span>AI release guardian</span>
+          </div>
+        </div>
+        <nav>
+          <a href="#analysis" class="active">Risk console</a>
+          <a href="#gates">Release gates</a>
+          <a href="#audit">Audit trail</a>
+          <a href="#pricing">Pricing</a>
+        </nav>
+        <div class="nav-proof">
+          <span class="proof-label">Live workflow</span>
+          <strong id="navDecision">Waiting for scan</strong>
+          <span id="navScore">Risk score pending</span>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Galuxium Nexus V2 submission</p>
+            <h1>AI release risk platform for SaaS teams</h1>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" id="copyBriefButton" type="button" title="Copy executive brief">
+              <i data-lucide="copy"></i>
+              <span>Copy brief</span>
+            </button>
+            <button class="primary-button" id="analyzeTopButton" type="button">
+              <i data-lucide="scan-line"></i>
+              <span>Run scan</span>
+            </button>
+          </div>
+        </header>
+
+        <section class="workspace" id="analysis">
+          <div class="panel intake-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Change intake</p>
+                <h2>Paste a PR, product change, or JSON payload</h2>
+              </div>
+              <button class="ghost-button" id="resetButton" type="button" title="Reset sample">
+                <i data-lucide="rotate-ccw"></i>
+                <span>Reset</span>
+              </button>
+            </div>
+
+            <label for="tenantInput">Tenant</label>
+            <input id="tenantInput" value="acme-finance" />
+
+            <label for="usageInput">Monthly release scans</label>
+            <input id="usageInput" type="number" min="1" value="420" />
+
+            <label for="changeInput">Change evidence</label>
+            <textarea id="changeInput" spellcheck="false"></textarea>
+
+            <button class="primary-button full-width" id="analyzeButton" type="button">
+              <i data-lucide="shield-check"></i>
+              <span>Analyze release risk</span>
+            </button>
+          </div>
+
+          <div class="panel decision-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Release decision</p>
+                <h2 id="decisionText">Waiting for scan</h2>
+              </div>
+              <span id="decisionBadge" class="decision-badge neutral">Pending</span>
+            </div>
+
+            <div class="score-grid">
+              <div class="score-meter" aria-label="Release risk score">
+                <div class="score-ring" id="scoreRing">
+                  <strong id="scoreValue">0</strong>
+                  <span>/100</span>
+                </div>
+                <p id="scoreCaption">Paste a change and run the scan.</p>
+              </div>
+              <div class="metric-stack">
+                <div>
+                  <span>API units</span>
+                  <strong id="apiUnits">0</strong>
+                </div>
+                <div>
+                  <span>Human gate</span>
+                  <strong id="humanGate">Pending</strong>
+                </div>
+                <div>
+                  <span>Plan</span>
+                  <strong id="planName">Starter</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="risk-bars" id="riskBars" aria-label="Risk category breakdown"></div>
+          </div>
+        </section>
+
+        <section class="two-column">
+          <div class="panel" id="gates">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Release gates</p>
+                <h2>Generated security regression plan</h2>
+              </div>
+              <span id="gateCount" class="pill">0 gates</span>
+            </div>
+            <div class="gate-list" id="gateList"></div>
+          </div>
+
+          <div class="panel" id="audit">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Governance</p>
+                <h2>Tenant audit trail</h2>
+              </div>
+              <span class="pill">Signed evidence model</span>
+            </div>
+            <ol class="audit-list" id="auditList"></ol>
+          </div>
+        </section>
+
+        <section class="panel pricing-panel" id="pricing">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Fiscal architecture</p>
+              <h2>Usage-based SaaS monetization</h2>
+            </div>
+            <span id="monthlyBill" class="pill strong">INR 0 / month</span>
+          </div>
+          <div class="pricing-grid" id="pricingGrid"></div>
+        </section>
+
+        <section class="panel market-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Why judges should care</p>
+              <h2>AI coding has a release safety gap</h2>
+            </div>
+          </div>
+          <div class="market-grid">
+            <div>
+              <strong>Market friction</strong>
+              <p>Teams can generate code faster than they can review risk, test coverage, and audit evidence.</p>
+            </div>
+            <div>
+              <strong>Buyer</strong>
+              <p>SaaS teams shipping auth, payment, AI-agent, webhook, and customer-data changes.</p>
+            </div>
+            <div>
+              <strong>Moat</strong>
+              <p>Transparent risk scoring, security gate generation, tenant audit logs, and usage metering in one workflow.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

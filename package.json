@@ -1,0 +1,10 @@
+{
+  "name": "sentinel-saas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI release-risk SaaS demo for Galuxium Nexus V2",
+  "scripts": {
+    "start": "python -m http.server 5173 --directory web",
+    "test": "python -m unittest discover -s tests"
+  }
+}

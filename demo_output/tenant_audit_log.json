@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": "2026-06-02T16:42:21Z",
+    "tenant": "acme-finance",
+    "actor": "Finance release owner",
+    "event": "change_ingested",
+    "details": "AI-assisted refund approval and ERP sync"
+  },
+  {
+    "timestamp": "2026-06-02T16:42:21Z",
+    "tenant": "acme-finance",
+    "actor": "sentinel-agent",
+    "event": "risk_score_calculated",
+    "details": "risk_score=96"
+  },
+  {
+    "timestamp": "2026-06-02T16:42:21Z",
+    "tenant": "acme-finance",
+    "actor": "sentinel-agent",
+    "event": "release_decision_recorded",
+    "details": "BLOCK_RELEASE_PENDING_HUMAN_REVIEW"
+  },
+  {
+    "timestamp": "2026-06-02T16:42:21Z",
+    "tenant": "acme-finance",
+    "actor": "Finance release owner",
+    "event": "approval_gate_selected",
+    "details": "human review required"
+  }
+]
