@@ -19,7 +19,7 @@ Galuxium Nexus V2 asks builders to ship monetizable SaaS platforms, not throwawa
 For local review:
 
 ```powershell
-python -m http.server 5173 --directory galuxium_sentinel_saas\web
+python -m http.server 5173 --directory web
 ```
 
 Open:
@@ -35,31 +35,31 @@ The static web demo also works from `galuxium_sentinel_saas/web/index.html`.
 Generate judge artifacts:
 
 ```powershell
-python galuxium_sentinel_saas\sentinel_saas_agent.py demo
+python sentinel_saas_agent.py demo
 ```
 
 Analyze a custom change:
 
 ```powershell
-python galuxium_sentinel_saas\sentinel_saas_agent.py analyze galuxium_sentinel_saas\demo_input\sample_pr.json --tenant acme-finance --monthly-usage 420
+python sentinel_saas_agent.py analyze demo_input\sample_pr.json --tenant acme-finance --monthly-usage 420
 ```
 
 Run the local API:
 
 ```powershell
-python galuxium_sentinel_saas\sentinel_saas_agent.py serve --host 127.0.0.1 --port 8091
+python sentinel_saas_agent.py serve --host 127.0.0.1 --port 8091
 ```
 
 API smoke test:
 
 ```powershell
-Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8091/analyze -ContentType 'application/json' -Body (Get-Content galuxium_sentinel_saas\demo_input\sample_pr.json -Raw)
+Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8091/analyze -ContentType 'application/json' -Body (Get-Content demo_input\sample_pr.json -Raw)
 ```
 
 ## Run Tests
 
 ```powershell
-python -m unittest discover -s galuxium_sentinel_saas\tests
+python -m unittest discover -s tests
 ```
 
 ## Demo Scenario
@@ -76,7 +76,7 @@ Sentinel SaaS detects the combined risk, assigns a **96/100 release risk score**
 
 ## Generated Artifacts
 
-After `python galuxium_sentinel_saas\sentinel_saas_agent.py demo`:
+After `python sentinel_saas_agent.py demo`:
 
 - `demo_output/analysis_result.json` - full machine-readable analysis
 - `demo_output/executive_brief.md` - judge and executive summary
